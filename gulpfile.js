@@ -7,7 +7,9 @@ var gulp = require('gulp'),
     livereload = require('gulp-livereload'),
     watch = require('gulp-watch'),
     connect = require('gulp-connect'),
-    browserify = require('gulp-browserify');
+    browserify = require('gulp-browserify'),
+    usemin = require('gulp-usemin'),
+    minifyCss = require('gulp-minify-css');
 
 
 
@@ -76,4 +78,12 @@ gulp.task('connect', function() {
     });
 });
 
-gulp.task('default', ['connect', 'watch']);
+gulp.task('usemin', function() {
+    gulp.src('./*.html')
+        .pipe(usemin({
+            cssmin: minifyCss()
+        }))
+        .pipe(gulp.dest('build/'));
+});
+
+gulp.task('default', ['connect', 'watch', 'usemin']);
